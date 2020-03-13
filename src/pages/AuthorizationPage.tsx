@@ -18,8 +18,6 @@ export default function AuthorizationPage() {
 
   const classes = useStyles();
 
-  const authToken = localStorage.getItem("authToken");
-
   return (
     <Container maxWidth="sm" className={classes.root}>
       <Typography variant="h2">Note App</Typography>

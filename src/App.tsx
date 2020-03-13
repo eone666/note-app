@@ -3,15 +3,14 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AuthorizationPage from "./pages/AuthorizationPage";
 import MainPage from "./pages/MainPage";
 
+const authToken:string | null = localStorage.getItem("authToken");
+
 function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/notes">
-          <MainPage />
-        </Route>
         <Route path="/">
-          <AuthorizationPage />
+          {authToken?(<MainPage/>):(<AuthorizationPage/>)}
         </Route>
       </Switch>
     </Router>
