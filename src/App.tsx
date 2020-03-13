@@ -1,15 +1,21 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import SignUp from './pages/SignUp'
+import AuthorizationPage from "./pages/AuthorizationPage";
+import MainPage from "./pages/MainPage";
 
 function App() {
-  return <Router>
-    <Switch>
-      <Route path="/" exact>
-        <SignUp/>
-      </Route>
-    </Switch>
-  </Router>;
+  return (
+    <Router>
+      <Switch>
+        <Route path="/notes">
+          <MainPage />
+        </Route>
+        <Route path="/">
+          <AuthorizationPage />
+        </Route>
+      </Switch>
+    </Router>
+  );
 }
 
 export default App;
