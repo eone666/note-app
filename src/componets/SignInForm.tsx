@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { TextField, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
-export default function SignIpForm(){
+interface ISignInFormProps{
+  onSignIn: Function
+}
+
+export default function SignIpForm(props: ISignInFormProps) {
   const useStyles = makeStyles({
     root: {
       display: "grid",
@@ -23,26 +27,23 @@ export default function SignIpForm(){
 
   const classes = useStyles();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  props.onSignIn(email,password);
+
   return (
-    
-      <form className={classes.root}>
-        <div className={classes.inputGroup}>
-          <TextField
-            required
-            label="E-mail"
-          />
-          <TextField
-            required
-            label="Password"
-            type="password"
-          />
-        </div>
-        <Button type="submit" color="primary" variant="contained">
-          Sign in
-        </Button>
-        <Link className={classes.centerLink} to="/sign-up">
-          Don't have an accout yet? Create in now.
-        </Link>
-      </form>
+    <form className={classes.root}>
+      <div className={classes.inputGroup}>
+        <TextField required label="E-mail" value={email} onChange={event=>{setEmail(event.target.value)}} />
+        <TextField required label="Password" type="password"  value={password} onChange={event=>{setPassword(event.target.value)}}/>
+      </div>
+      <Button type="submit" color="primary" variant="contained">
+        Sign in
+      </Button>
+      <Link className={classes.centerLink} to="/sign-up">
+        Don't have an accout yet? Create it now.
+      </Link>
+    </form>
   );
 }
