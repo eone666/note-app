@@ -1,21 +1,10 @@
-import React from "react";
+import React ,{ useState } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import { Typography, Container } from "@material-ui/core";
 import SignUpForm from "../componets/SignUpForm";
 import SignInForm from "../componets/SignInForm";
 import fb from "../firebase";
-
-interface IUserFormData {
-  email: string;
-  password: string;
-}
-
-interface IAuthResult {
-  succes: boolean;
-  message: string;
-}
-
 
 export default function AuthorizationPage() {
   const useStyles = makeStyles({
@@ -30,28 +19,25 @@ export default function AuthorizationPage() {
 
   const classes = useStyles();
 
-  const signUpHandler = (email: string,password: string): IAuthResult => {
+  const [isLoading,setLoadingStatus] = useState(false)
+
+  const signUpHandler = (email: string,password: string): void => {
+
+    setLoadingStatus(true);
 
     fb.auth().createUserWithEmailAndPassword(email, password).then(()=>{
-      alert('Confirm your e-mail address')
+      alert('Registration success')
     }).catch(function(error) {
       // Handle Errors here.
       alert(error.message)
       // ...
+    }).finally(()=>{
+      setLoadingStatus(false)
     });
-
-    return {
-      succes: true,
-      message: "succes"
-    };
   };
 
-  const signInHandler = (email:string,password:string): IAuthResult => {
+  const signInHandler = (email:string,password:string): void => {
 
-    return {
-      succes: true,
-      message: "succes"
-    };
   };
 
   return (
@@ -59,10 +45,10 @@ export default function AuthorizationPage() {
       <Typography variant="h2">Note App</Typography>
       <Switch>
         <Route path="/sign-in">
-          <SignInForm onSignIn={signInHandler} />
+          <SignInForm onSignIn={signInHandler} isLoading={isLoading}/>
         </Route>
         <Route path="/sign-up">
-          <SignUpForm onSignUp={signUpHandler} />
+          <SignUpForm onSignUp={signUpHandler} isLoading={isLoading}/>
         </Route>
         <Redirect from="/" to="sign-in" />
       </Switch>
